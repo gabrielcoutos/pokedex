@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/component/pokemon_card.dart';
 import 'package:pokedex/entity/Pokemon.dart';
 import 'package:pokedex/http/requester.dart';
 
@@ -14,11 +15,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         primaryColor: Colors.blueAccent,
         cardTheme: CardTheme(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          )
-        ),
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            )),
         backgroundColor: Colors.grey[100],
       ),
       home: AllPokemon(),
@@ -27,8 +27,6 @@ class MyApp extends StatelessWidget {
 }
 
 class AllPokemon extends StatefulWidget {
-
-
   @override
   _AllPokemonState createState() => _AllPokemonState();
 }
@@ -41,7 +39,8 @@ class _AllPokemonState extends State<AllPokemon> {
     super.initState();
     Requester requester = Requester();
     pokedex = requester.fetchPost();
-    pokedex.then((pokehub) => pokehub.forEach((pokemon) => pokemon.printPokemon()));
+    pokedex.then(
+        (pokehub) => pokehub.forEach((pokemon) => pokemon.printPokemon()));
   }
 
   @override
@@ -50,27 +49,24 @@ class _AllPokemonState extends State<AllPokemon> {
       appBar: AppBar(
         title: Text("Pokedex"),
       ),
-      body: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Expanded(
-            child: Card(
-              child: Text("teste"),
-            ),
-            flex: 5,
-          ),
-          Expanded(
-            child: Card(
-                child: Text("heuheuheuheuue"),
-            ),
-            flex: 5,
-          ),
-        ],
+      body: Center(
+        child: FutureBuilder<List<Pokemon>>(
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return GridView.builder(
+                itemCount: snapshot.data.length,
+                gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                itemBuilder: (BuildContext context, int index) {
+                  return PokemonCard(snapshot.data[index]);
+                },
+              );
+            }
+            return CircularProgressIndicator();
+          },
+          future: pokedex,
+        ),
       ),
     );
   }
-
 }
-
-
-
