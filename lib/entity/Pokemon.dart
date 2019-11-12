@@ -39,5 +39,15 @@ class Pokemon {
     );
   }
 
+  static List<Pokemon> fromJsonList(Map<String,dynamic> json){
+    List<Pokemon> pokedex;
+    if(json['pokemon'] != null){
+      pokedex = List<Pokemon>();
+      List<dynamic> pokes = json['pokemon'];
+      pokes.forEach((pokemon) => pokedex.add(fromJson(pokemon)));
+    }
+    return pokedex;
+  }
+
 
 }
