@@ -33,7 +33,7 @@ class Pokemon {
       candyCount: json['candy_count'],
       egg: json['egg'],
       spawnChance: json['spawn_chance'].toString(),
-      avgSpawns: json['avg_spawns'],
+      avgSpawns: json['avg_spawns'].toString(),
       spawnTime: json['spawn_time'],
       weaknesses: json['weaknesses'].cast<String>(),
     );
@@ -47,6 +47,12 @@ class Pokemon {
       pokes.forEach((pokemon) => pokedex.add(fromJson(pokemon)));
     }
     return pokedex;
+  }
+
+  void printPokemon(){
+    print(' id: $id\n'
+        'num: $num\n'
+        'name: $name\n');
   }
 
 

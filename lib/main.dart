@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/entity/Pokemon.dart';
+import 'package:pokedex/http/requester.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,11 +27,23 @@ class MyApp extends StatelessWidget {
 }
 
 class AllPokemon extends StatefulWidget {
+
+
   @override
   _AllPokemonState createState() => _AllPokemonState();
 }
 
 class _AllPokemonState extends State<AllPokemon> {
+  Future<List<Pokemon>> pokedex;
+
+  @override
+  void initState() {
+    super.initState();
+    Requester requester = Requester();
+    pokedex = requester.fetchPost();
+    pokedex.then((pokehub) => pokehub.forEach((pokemon) => pokemon.printPokemon()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +69,7 @@ class _AllPokemonState extends State<AllPokemon> {
       ),
     );
   }
+
 }
 
 
