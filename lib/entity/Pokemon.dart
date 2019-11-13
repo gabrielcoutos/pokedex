@@ -52,7 +52,8 @@ class Pokemon {
   void printPokemon(){
     print(' id: $id\n'
         'num: $num\n'
-        'name: $name\n');
+        'name: $name\n'
+        'img: $img');
   }
 
 
