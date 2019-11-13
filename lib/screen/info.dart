@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/entity/Pokemon.dart';
+import 'package:pokedex/util/Utils.dart';
 
 class InfoPokemonScreen extends StatelessWidget {
   final Pokemon _pokemon;
@@ -71,7 +72,7 @@ class InfoPokemonScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Text(type),
       ),
-      color: Colors.blueAccent,
+      color: Utils.getColorType(type),
     );
   }
 
