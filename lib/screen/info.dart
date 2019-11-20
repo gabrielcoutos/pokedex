@@ -7,14 +7,20 @@ class InfoPokemonScreen extends StatelessWidget {
 
   InfoPokemonScreen(this._pokemon);
 
+
   @override
   Widget build(BuildContext context) {
+    double posTop = MediaQuery
+        .of(context)
+        .size
+        .height * 0.12;
     return Scaffold(
       appBar: AppBar(
         title: Text(_pokemon.name),
+        backgroundColor: Utils.getColorType(_pokemon.type[0]),
         elevation: 0.0,
       ),
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Utils.getColorType(_pokemon.type[0]),
       body: Stack(
         children: <Widget>[
 
@@ -27,7 +33,7 @@ class InfoPokemonScreen extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 64.0, 0.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(0.0, posTop, 0.0, 0.0),
                     child: Text(_pokemon.name,style: TextStyle(fontSize: 20.0),),
                   ),
                   Padding(
@@ -46,13 +52,23 @@ class InfoPokemonScreen extends StatelessWidget {
                     child: Text('Fraco contra',style: TextStyle(fontWeight: FontWeight.bold),),
                   ),
                   _getWeaknesses(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Próximas evoluções',
+                      style: TextStyle(fontWeight: FontWeight.bold),),
+                  ),
+                  _getNextEvolutions(),
+
                 ],
               ),
             ),
           ),
           Align(
               alignment: Alignment.topCenter,
-              child: Image.network(_pokemon.img,scale: 0.8,)
+              child: Hero(
+                child: Image.network(_pokemon.img, scale: 0.8,),
+                tag: 'dash${_pokemon.id}',
+              )
           ),
         ],
       ),
@@ -70,7 +86,7 @@ class InfoPokemonScreen extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(type),
+        child: Text(type, style: TextStyle(color: Colors.white),),
       ),
       color: Utils.getColorType(type),
     );
@@ -87,9 +103,26 @@ class InfoPokemonScreen extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(weakness),
+        child: Text(weakness, style: TextStyle(color: Colors.white),),
       ),
       color: Colors.redAccent,
+    );
+  }
+
+  Widget _getNextEvolutions() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: _pokemon.nextEvolution.map(_getNextEvolution).toList(),
+    );
+  }
+
+  Widget _getNextEvolution(NextEvolution nextEvolution) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(nextEvolution.name, style: TextStyle(color: Colors.white),),
+      ),
+      color: Utils.getColorType(_pokemon.type[0]),
     );
   }
 }

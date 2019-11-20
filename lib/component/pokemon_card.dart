@@ -14,8 +14,16 @@ class PokemonCard extends StatelessWidget {
       child: Card(
           child: Column(
             children: <Widget>[
-              FadeInImage.assetNetwork(placeholder: 'images/loader.gif', image: _pokemon.img),
-              Text(_pokemon.name),
+              Hero(
+                child: FadeInImage.assetNetwork(
+                    placeholder: 'images/loader.gif', image: _pokemon.img),
+                tag: 'dash${_pokemon.id}',
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  _pokemon.name, style: TextStyle(color: Colors.white),),
+              ),
             ],
           ),
         color: verifyType(),
